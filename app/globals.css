@@ -10,6 +10,21 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  --color-neo-purple: #BB86FC;
+  --color-neo-teal: #03DAc6;
+  --color-neo-blue: #23d1f6;
+  --color-neo-navy: #3700b3;
+}
+
+.model-section-animation {
+  transition: all;
+  transform: translateX(10vw) rotateX(90deg);
+}
+
+.controller-section-animation {
+  transition: all;
+  transform: translateX(-10vw) rotateX(-90deg);
 }
 
 @media (prefers-color-scheme: dark) {
