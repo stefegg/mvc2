@@ -7,6 +7,7 @@ import {
 } from "./_components";
 import { useEffect, useRef } from "react";
 import { animate, inView, stagger } from "motion";
+import Link from "next/link";
 
 export default function Home() {
   const titleSection = useRef<HTMLSpanElement>(null);
@@ -77,12 +78,35 @@ export default function Home() {
                     { duration: 0.5 }
                   );
                   animate(
-                    ".button-rise",
+                    ".button-show",
                     {
                       opacity: 1,
-                      transform: "translateY(0px)",
                     },
                     { duration: 1 }
+                  );
+                  animate(
+                    ".model-section-animation",
+                    {
+                      textShadow:
+                        "2px 2px 0px #03DAc6, 5px 4px 0px rgba(0,0,0,0.15)",
+                    },
+                    { duration: 0.3 }
+                  );
+                  animate(
+                    ".vs-section-animation",
+                    {
+                      textShadow:
+                        "2px 2px 0px #8A2BE2, 5px 4px 0px rgba(0,0,0,0.15)",
+                    },
+                    { duration: 0.3 }
+                  );
+                  animate(
+                    ".controller-section-animation",
+                    {
+                      textShadow:
+                        "2px 2px 0px #3700b3, 5px 4px 0px rgba(0,0,0,0.15)",
+                    },
+                    { duration: 0.3 }
                   );
                 }
               );
@@ -104,28 +128,32 @@ export default function Home() {
       >
         <Title
           className={
-            "model-section-animation opacity-0 text-8xl text-neo-purple [text-shadow:2px_2px_0px_#03DAc6,_5px_4px_0px_rgba(0,0,0,0.15)]"
+            "model-section-animation opacity-0 text-8xl text-neo-purple"
           }
           title="M O D E L"
         />
 
         <Title
           title="vs."
-          className={
-            "text-7xl text-neo-teal vs-section-animation [text-shadow:2px_2px_0px_#8A2BE2,_5px_4px_0px_rgba(0,0,0,0.15)]"
-          }
+          className={"text-7xl text-neo-teal vs-section-animation"}
         />
         <Title
           title="C O N T R O L L E R"
           className={
-            "controller-section-animation opacity-0 text-8xl text-neo-blue [text-shadow:2px_2px_0px_#3700b3,_5px_4px_0px_rgba(0,0,0,0.15)]"
+            "controller-section-animation opacity-0 text-8xl text-neo-blue"
           }
         />
         <AnimatedBorderDiv
-          className="button-rise opacity-0"
-          contentClassName="bg-blue-500 hover:bg-blue-600 rounded-md"
+          className="button-show opacity-0"
+          initialColor="#BB86FC"
+          hoverColor="#03DAc6"
         >
-          <Button text="S T A R T" />
+          <Link href="/fighter-select">
+            <Button
+              text="S T A R T"
+              className="w-48 h-12 text-xl bg-neo-navy text-neo-blue"
+            />
+          </Link>
         </AnimatedBorderDiv>
       </main>
     </div>

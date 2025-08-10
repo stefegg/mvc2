@@ -6,7 +6,6 @@ import styles from "./abd.module.css";
 interface AnimatedBorderDivProps {
   children: React.ReactNode;
   className?: string;
-  contentClassName?: string;
   initialColor?: string;
   hoverColor?: string;
 }
@@ -14,7 +13,6 @@ interface AnimatedBorderDivProps {
 const AnimatedBorderDiv = ({
   children,
   className = "",
-  contentClassName = "",
   initialColor,
   hoverColor,
 }: AnimatedBorderDivProps) => {
@@ -25,7 +23,7 @@ const AnimatedBorderDiv = ({
 
   return (
     <div className={`${styles.container} ${className}`} style={style}>
-      <div className={`${styles.content} ${contentClassName}`}>{children}</div>
+      <div className={`${styles.content}`}>{children}</div>
     </div>
   );
 };
