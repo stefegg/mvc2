@@ -21,12 +21,26 @@ type Team = {
   fighters: Fighter[];
 };
 
+type AdjustedTeam = {
+  teamId: string;
+  fighters: {
+    fighterId: string;
+    fighterName: string;
+    adjustedStats: FighterStats;
+    advantageCount: number;
+  }[];
+  totalAdvantages: number;
+  totalPower: number;
+};
+
 type TeamFightSummary = {
-  team: Team;
+  team: AdjustedTeam;
   totalLogic: number;
   totalFlow: number;
   totalChaos: number;
+  totalPower: number;
   totalAdvantages: number;
+  winPercentage: number;
 };
 
 type FightResult = {
@@ -36,4 +50,11 @@ type FightResult = {
   mvp: Fighter;
 };
 
-export type { Fighter, FighterType, FighterStats, Team, FightResult };
+export type {
+  Fighter,
+  FighterType,
+  FighterStats,
+  Team,
+  FightResult,
+  TeamFightSummary,
+};

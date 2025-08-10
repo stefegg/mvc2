@@ -9,7 +9,7 @@
 }
 
 .container:hover {
-  animation: borderSweep 0.8s ease-out forwards;
+  animation: borderSweep 0.4s ease-out forwards;
 }
 
 @keyframes borderSweep {

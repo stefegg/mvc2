@@ -2,5 +2,6 @@ import Title from "./Title";
 import Button from "./Button";
 import TitleBackground from "./TitleBackground";
 import AnimatedBorderDiv from "./AnimatedBorderDiv";
+import FighterSelectCard from "./FighterSelectCard";
 
-export { Title, Button, TitleBackground, AnimatedBorderDiv };
+export { Title, Button, TitleBackground, AnimatedBorderDiv, FighterSelectCard };
