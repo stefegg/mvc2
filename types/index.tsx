@@ -46,6 +46,8 @@ type TeamFightSummary = {
 type FightResult = {
   teamOneSummary: TeamFightSummary;
   teamTwoSummary: TeamFightSummary;
+  teamOneSkill: number;
+  teamTwoSkill: number;
   winner: "teamOne" | "teamTwo" | "draw";
   mvp: Fighter;
 };

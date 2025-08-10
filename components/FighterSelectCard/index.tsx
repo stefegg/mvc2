@@ -3,7 +3,7 @@ import Button from "../Button";
 import { useGame } from "@/contexts/GameContext";
 
 const FighterSelectCard = ({ fighter }: { fighter: Fighter }) => {
-  const { addToTeam, removeFromTeam, teamOne, teamTwo } = useGame();
+  const { addToTeam, teamOne, teamTwo } = useGame();
 
   return (
     <div key={fighter.id} className="bg-neo-navy p-4 rounded-lg">
@@ -15,20 +15,10 @@ const FighterSelectCard = ({ fighter }: { fighter: Fighter }) => {
         <div>Flow: {fighter.stats.flow}</div>
         <div>Chaos: {fighter.stats.chaos}</div>
       </div>
-      {teamOne.find((f) => f.id === fighter.id) ? (
-        <Button
-          text="Remove from Team One"
-          onClick={() => removeFromTeam(fighter.id, 1)}
-        />
-      ) : (
+      {!teamOne.find((f) => f.id === fighter.id) && teamOne.length !== 3 && (
         <Button text="Add to Team One" onClick={() => addToTeam(fighter, 1)} />
       )}
-      {teamTwo.find((f) => f.id === fighter.id) ? (
-        <Button
-          text="Remove from Team Two"
-          onClick={() => removeFromTeam(fighter.id, 2)}
-        />
-      ) : (
+      {!teamTwo.find((f) => f.id === fighter.id) && teamTwo.length !== 3 && (
         <Button text="Add to Team Two" onClick={() => addToTeam(fighter, 2)} />
       )}
     </div>

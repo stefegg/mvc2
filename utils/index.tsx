@@ -52,10 +52,7 @@ function getAdjustedTeam(team: Team, opponent: Team) {
   };
 }
 
-function createBattlePreview(
-  teamOne: Team,
-  teamTwo: Team
-): { teamOneSummary: TeamFightSummary; teamTwoSummary: TeamFightSummary } {
+function createBattlePreview(teamOne: Team, teamTwo: Team): TeamFightSummary[] {
   // Get adjusted teams
   const adjustedTeamOne = getAdjustedTeam(teamOne, teamTwo);
   const adjustedTeamTwo = getAdjustedTeam(teamTwo, teamOne);
@@ -123,7 +120,7 @@ function createBattlePreview(
     winPercentage: team2WinPercentage,
   };
 
-  return { teamOneSummary, teamTwoSummary };
+  return [teamOneSummary, teamTwoSummary];
 }
 
 export { getAdjustedTeam, createBattlePreview };

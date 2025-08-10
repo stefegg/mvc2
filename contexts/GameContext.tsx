@@ -17,7 +17,6 @@ interface GameContextType {
 
   // Team sharing via URL
   loadTeamsFromUrl: (teamOneIds: string[], teamTwoIds: string[]) => void;
-  getShareableUrl: () => string;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -71,14 +70,6 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     setTeamTwo(teamTwoFighters);
   };
 
-  const getShareableUrl = () => {
-    const teamOneIds = teamOne.map((f) => f.id).join(",");
-    const teamTwoIds = teamTwo.map((f) => f.id).join(",");
-
-    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-    return `${baseUrl}/fighter-select?team1=${teamOneIds}&team2=${teamTwoIds}`;
-  };
-
   return (
     <GameContext.Provider
       value={{
@@ -90,7 +81,6 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         removeFromTeam,
         clearTeam,
         loadTeamsFromUrl,
-        getShareableUrl,
       }}
     >
       {children}
