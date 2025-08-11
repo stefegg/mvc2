@@ -1,7 +1,11 @@
-type Fighter = {
+// Base fighter identification info
+type FighterInfo = {
   id: string;
   name: string;
   portrait: string;
+};
+
+type Fighter = FighterInfo & {
   origin: string;
   stats: FighterStats;
 };
@@ -21,16 +25,15 @@ type Team = {
   fighters: Fighter[];
 };
 
+type AdjustedFighter = FighterInfo & {
+  adjustedStats: FighterStats;
+  adjustedPower: number;
+  advantageCount: number;
+};
+
 type AdjustedTeam = {
   teamId: string;
-  fighters: {
-    fighterId: string;
-    fighterName: string;
-    portrait: string;
-    adjustedStats: FighterStats;
-    adjustedPower: number;
-    advantageCount: number;
-  }[];
+  fighters: AdjustedFighter[];
   totalAdvantages: number;
   totalPower: number;
   totalLogic: number;
@@ -40,34 +43,26 @@ type AdjustedTeam = {
 
 type TeamFightSummary = {
   team: AdjustedTeam;
-  totalLogic: number;
-  totalFlow: number;
-  totalChaos: number;
-  totalPower: number;
-  totalAdvantages: number;
   winPercentage: number;
 };
 
 type FightResult = {
   id: string;
-  teamOneSummary: TeamFightSummary;
-  teamTwoSummary: TeamFightSummary;
-  teamOneSkill: number;
-  teamTwoSkill: number;
-  teamOneFinalPower: number;
-  teamTwoFinalPower: number;
-  winner: "teamOne" | "teamTwo" | "draw";
-  mvp: {
-    fighterId: string;
-    fighterName: string;
-    portrait: string;
+  winningTeam: TeamFightSummary;
+  losingTeam: TeamFightSummary;
+  winningSkill: number;
+  losingSkill: number;
+  winningFinalPower: number;
+  losingFinalPower: number;
+  winner: "Team 1" | "Team 2";
+  mvp: FighterInfo & {
     adjustedPower: number;
     advantageCount: number;
-    team: "teamOne" | "teamTwo";
   };
 };
 
 export type {
+  FighterInfo,
   Fighter,
   FighterType,
   FighterStats,

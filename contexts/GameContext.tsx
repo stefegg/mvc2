@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useCallback, useMemo } from "react";
 import { Fighter } from "../types";
 
 interface GameContextType {
@@ -39,9 +39,14 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const [teamOne, setTeamOne] = useState<Fighter[]>([]);
   const [teamTwo, setTeamTwo] = useState<Fighter[]>([]);
 
-  const addToTeam = (fighter: Fighter, teamNumber: 1 | 2) => {
-    const setTeam = teamNumber === 1 ? setTeamOne : setTeamTwo;
-    const currentTeam = teamNumber === 1 ? teamOne : teamTwo;
+  // Utility function to get team operations by team number
+  const getTeamOperations = useCallback((teamNumber: 1 | 2) => ({
+    currentTeam: teamNumber === 1 ? teamOne : teamTwo,
+    setTeam: teamNumber === 1 ? setTeamOne : setTeamTwo,
+  }), [teamOne, teamTwo]);
+
+  const addToTeam = useCallback((fighter: Fighter, teamNumber: 1 | 2) => {
+    const { currentTeam, setTeam } = getTeamOperations(teamNumber);
 
     if (
       currentTeam.length < 3 &&
@@ -49,48 +54,47 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     ) {
       setTeam([...currentTeam, fighter]);
     }
-  };
+  }, [getTeamOperations]);
 
-  const removeFromTeam = (fighterId: string, teamNumber: 1 | 2) => {
-    const setTeam = teamNumber === 1 ? setTeamOne : setTeamTwo;
-    const currentTeam = teamNumber === 1 ? teamOne : teamTwo;
+  const removeFromTeam = useCallback((fighterId: string, teamNumber: 1 | 2) => {
+    const { currentTeam, setTeam } = getTeamOperations(teamNumber);
 
     setTeam(currentTeam.filter((f) => f.id !== fighterId));
-  };
+  }, [getTeamOperations]);
 
-  const clearTeam = (teamNumber: 1 | 2) => {
-    const setTeam = teamNumber === 1 ? setTeamOne : setTeamTwo;
+  const clearTeam = useCallback((teamNumber: 1 | 2) => {
+    const { setTeam } = getTeamOperations(teamNumber);
     setTeam([]);
-  };
+  }, [getTeamOperations]);
 
-  const setTeam = (fighters: Fighter[], teamNumber: 1 | 2) => {
-    const setTeamState = teamNumber === 1 ? setTeamOne : setTeamTwo;
+  const setTeam = useCallback((fighters: Fighter[], teamNumber: 1 | 2) => {
+    const { setTeam: setTeamState } = getTeamOperations(teamNumber);
     setTeamState(fighters);
-  };
+  }, [getTeamOperations]);
 
-  const loadTeamsFromUrl = (teamOneIds: string[], teamTwoIds: string[]) => {
+  const loadTeamsFromUrl = useCallback((teamOneIds: string[], teamTwoIds: string[]) => {
     const teamOneFighters = fighters.filter((f) => teamOneIds.includes(f.id));
     const teamTwoFighters = fighters.filter((f) => teamTwoIds.includes(f.id));
 
     setTeamOne(teamOneFighters);
     setTeamTwo(teamTwoFighters);
-  };
+  }, [fighters]);
 
+
+  const contextValue = useMemo(() => ({
+    fighters,
+    setFighters,
+    teamOne,
+    teamTwo,
+    addToTeam,
+    removeFromTeam,
+    clearTeam,
+    setTeam,
+    loadTeamsFromUrl,
+  }), [fighters, teamOne, teamTwo, addToTeam, removeFromTeam, clearTeam, setTeam, loadTeamsFromUrl]);
 
   return (
-    <GameContext.Provider
-      value={{
-        fighters,
-        setFighters,
-        teamOne,
-        teamTwo,
-        addToTeam,
-        removeFromTeam,
-        clearTeam,
-        setTeam,
-        loadTeamsFromUrl,
-      }}
-    >
+    <GameContext.Provider value={contextValue}>
       {children}
     </GameContext.Provider>
   );

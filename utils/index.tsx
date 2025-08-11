@@ -1,4 +1,10 @@
-import { FighterStats, FighterType, Team, TeamFightSummary, FightResult } from "../types";
+import {
+  FighterStats,
+  FighterType,
+  Team,
+  TeamFightSummary,
+  FightResult,
+} from "../types";
 
 const typeAdvantages: Record<
   FighterType,
@@ -32,14 +38,15 @@ function getAdjustedTeam(team: Team, opponent: Team) {
     };
 
     // Calculate individual power and accumulate totals in single pass
-    const individualPower = adjustedStats.logic + adjustedStats.flow + adjustedStats.chaos;
+    const individualPower =
+      adjustedStats.logic + adjustedStats.flow + adjustedStats.chaos;
     totalLogic += adjustedStats.logic;
     totalFlow += adjustedStats.flow;
     totalChaos += adjustedStats.chaos;
 
     return {
-      fighterId: fighter.id,
-      fighterName: fighter.name,
+      id: fighter.id,
+      name: fighter.name,
       portrait: fighter.portrait,
       adjustedStats,
       adjustedPower: individualPower, // Pre-calculate for MVP
@@ -79,81 +86,87 @@ function createBattlePreview(teamOne: Team, teamTwo: Team): TeamFightSummary[] {
     team2WinPercentage = 100 - team1WinPercentage;
   }
 
-  // Use pre-calculated totals instead of re-calculating
+  // Create simplified team summaries (totals accessed via team.totalPower etc.)
   const teamOneSummary: TeamFightSummary = {
     team: adjustedTeamOne,
-    totalLogic: adjustedTeamOne.totalLogic,
-    totalFlow: adjustedTeamOne.totalFlow,
-    totalChaos: adjustedTeamOne.totalChaos,
-    totalPower: adjustedTeamOne.totalPower,
-    totalAdvantages: adjustedTeamOne.totalAdvantages,
     winPercentage: team1WinPercentage,
   };
 
   const teamTwoSummary: TeamFightSummary = {
     team: adjustedTeamTwo,
-    totalLogic: adjustedTeamTwo.totalLogic,
-    totalFlow: adjustedTeamTwo.totalFlow,
-    totalChaos: adjustedTeamTwo.totalChaos,
-    totalPower: adjustedTeamTwo.totalPower,
-    totalAdvantages: adjustedTeamTwo.totalAdvantages,
     winPercentage: team2WinPercentage,
   };
 
   return [teamOneSummary, teamTwoSummary];
 }
 
-function calculateBattleResult(teamOneSummary: TeamFightSummary, teamTwoSummary: TeamFightSummary): Omit<FightResult, "id"> {
+function calculateBattleResult(
+  teamOneSummary: TeamFightSummary,
+  teamTwoSummary: TeamFightSummary
+): Omit<FightResult, "id"> {
   // Generate random skill numbers between 1-500
   const teamOneSkill = Math.floor(Math.random() * 500) + 1;
   const teamTwoSkill = Math.floor(Math.random() * 500) + 1;
-  
+
   // Calculate final power (totalPower + skill)
-  const teamOneFinalPower = teamOneSummary.totalPower + teamOneSkill;
-  const teamTwoFinalPower = teamTwoSummary.totalPower + teamTwoSkill;
-  
-  // Determine winner
-  let winner: "teamOne" | "teamTwo" | "draw";
-  if (teamOneFinalPower > teamTwoFinalPower) {
-    winner = "teamOne";
-  } else if (teamTwoFinalPower > teamOneFinalPower) {
-    winner = "teamTwo";
+  const teamOneFinalPower = teamOneSummary.team.totalPower + teamOneSkill;
+  const teamTwoFinalPower = teamTwoSummary.team.totalPower + teamTwoSkill;
+
+  // Determine winner (no draws allowed)
+  let winner: "Team 1" | "Team 2";
+  if (teamOneFinalPower >= teamTwoFinalPower) {
+    winner = "Team 1";
   } else {
-    winner = "draw";
+    winner = "Team 2";
   }
+
+  // Determine winning team first for MVP calculation
+  const winningTeamSummary = winner === "Team 1" ? teamOneSummary : teamTwoSummary;
   
-  // Calculate MVP using pre-calculated adjustedPower
-  const allFighters = [
-    ...teamOneSummary.team.fighters.map(f => ({
-      ...f,
-      team: "teamOne" as const,
-    })),
-    ...teamTwoSummary.team.fighters.map(f => ({
-      ...f,
-      team: "teamTwo" as const,
-    }))
-  ];
-  
-  const mvpFighter = allFighters.reduce((prev, current) => 
+  // Calculate MVP from winning team only
+  const mvpFighter = winningTeamSummary.team.fighters.reduce((prev, current) =>
     current.adjustedPower > prev.adjustedPower ? current : prev
   );
-  
+
   const mvp = {
-    fighterId: mvpFighter.fighterId,
-    fighterName: mvpFighter.fighterName,
+    id: mvpFighter.id,
+    name: mvpFighter.name,
     portrait: mvpFighter.portrait,
     adjustedPower: mvpFighter.adjustedPower,
     advantageCount: mvpFighter.advantageCount,
-    team: mvpFighter.team,
   };
-  
+
+  // Determine winning and losing teams
+  let winningTeam: TeamFightSummary;
+  let losingTeam: TeamFightSummary;
+  let winningSkill: number;
+  let losingSkill: number;
+  let winningFinalPower: number;
+  let losingFinalPower: number;
+
+  if (winner === "Team 1") {
+    winningTeam = teamOneSummary;
+    losingTeam = teamTwoSummary;
+    winningSkill = teamOneSkill;
+    losingSkill = teamTwoSkill;
+    winningFinalPower = teamOneFinalPower;
+    losingFinalPower = teamTwoFinalPower;
+  } else {
+    winningTeam = teamTwoSummary;
+    losingTeam = teamOneSummary;
+    winningSkill = teamTwoSkill;
+    losingSkill = teamOneSkill;
+    winningFinalPower = teamTwoFinalPower;
+    losingFinalPower = teamOneFinalPower;
+  }
+
   return {
-    teamOneSummary,
-    teamTwoSummary,
-    teamOneSkill,
-    teamTwoSkill,
-    teamOneFinalPower,
-    teamTwoFinalPower,
+    winningTeam,
+    losingTeam,
+    winningSkill,
+    losingSkill,
+    winningFinalPower,
+    losingFinalPower,
     winner,
     mvp,
   };

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useCallback, useMemo } from "react";
 import { FightResult } from "../types";
 import { v4 as uuidv4 } from "uuid";
 // in a real application, this would be replaced with an API call to fetch results
@@ -20,7 +20,7 @@ export function BattleResultsProvider({ children }: { children: ReactNode }) {
     {}
   );
 
-  const saveFightResult = (result: Omit<FightResult, "id">): string => {
+  const saveFightResult = useCallback((result: Omit<FightResult, "id">): string => {
     const id = uuidv4();
     const fightResult: FightResult = {
       ...result,
@@ -34,21 +34,21 @@ export function BattleResultsProvider({ children }: { children: ReactNode }) {
     }));
 
     return id;
-  };
+  }, []);
 
-  const getFightResultById = (id: string): FightResult | null => {
+  const getFightResultById = useCallback((id: string): FightResult | null => {
     // Mock database fetch - in real world, this would be an API call
     return fightResults[id] || null;
-  };
+  }, [fightResults]);
+
+  const contextValue = useMemo(() => ({
+    fightResults,
+    saveFightResult,
+    getFightResultById,
+  }), [fightResults, saveFightResult, getFightResultById]);
 
   return (
-    <BattleResultsContext.Provider
-      value={{
-        fightResults,
-        saveFightResult,
-        getFightResultById,
-      }}
-    >
+    <BattleResultsContext.Provider value={contextValue}>
       {children}
     </BattleResultsContext.Provider>
   );

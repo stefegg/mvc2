@@ -7,6 +7,7 @@ import { Fighter } from "../../types";
 import { useGame } from "../../contexts/GameContext";
 import { useFlashAnimation } from "../../hooks/useFlashAnimation";
 import { FighterSelectCard, BattlePreview, TeamSelectCard } from "@/components";
+import { COLORS } from "@/constants/theme";
 
 interface FighterSelectProps {
   initialFighters: Fighter[];
@@ -36,7 +37,6 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     return fighters.length > 0 ? fighters : initialFighters;
   }, [fighters, initialFighters]);
 
-  // Filter fighters by full name for search
   const isFilterMatch = (fighter: Fighter) => {
     if (!searchFilter.trim()) return true;
     return fighter.name.toLowerCase().includes(searchFilter.toLowerCase());
@@ -93,7 +93,6 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
 
   return (
     <>
-      {/* Screen flash overlay */}
       <div
         ref={flashRef}
         className="fixed inset-0 z-50 pointer-events-none opacity-0 bg-white"
@@ -105,14 +104,14 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
         <>
           <motion.h1
             className="text-7xl italic text-center mb-8 font-bold"
-            initial={{ color: "#23d1f6" }} // neo-blue
+            initial={{ color: COLORS.NEO_BLUE }} // neo-blue
             animate={{
               color: [
-                "#23d1f6", // neo-blue
+                COLORS.NEO_BLUE, // neo-blue
                 "#ffffff", // white
-                "#FFF700", // neo-yellow
+                COLORS.NEO_YELLOW, // neo-yellow
                 "#ffffff", // white
-                "#23d1f6", // neo-blue (final)
+                COLORS.NEO_BLUE, // neo-blue (final)
               ],
             }}
             transition={{
@@ -123,8 +122,7 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
           >
             Select Your Fighters
           </motion.h1>
-          
-          {/* Search Filter */}
+
           <div className="mb-6 flex justify-center">
             <input
               type="text"

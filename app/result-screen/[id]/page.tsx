@@ -24,9 +24,11 @@ export default function Page() {
       <div className="min-h-screen p-8 text-white">
         <div className="text-center">
           <h1 className="text-4xl mb-4">Fight Result Not Found</h1>
-          <p className="mb-6">The battle result with ID {fightId} could not be found.</p>
-          <Link 
-            href="/fighter-select" 
+          <p className="mb-6">
+            The battle result with ID {fightId} could not be found.
+          </p>
+          <Link
+            href="/fighter-select"
             className="inline-block bg-neo-teal hover:bg-neo-purple transition-colors duration-200 text-black font-bold py-3 px-6 rounded-lg"
           >
             Back to Fighter Select
@@ -45,10 +47,10 @@ export default function Page() {
       {showTransition && (
         <BattleTransition onComplete={handleTransitionComplete} />
       )}
-      
+
       {!showTransition && (
-        <motion.div 
-          className="min-h-screen p-8"
+        <motion.div
+          className="min-h-screen"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2.0, ease: "easeOut" }}

@@ -95,22 +95,21 @@ const BattleTransition = ({ onComplete }: BattleTransitionProps) => {
             transition={{
               duration: 0.9,
               ease: "easeOut",
-              times: [0, 0.7, 1], // Keep growing, fade out at the end
+              times: [0, 0.7, 1],
             }}
           />
         );
       })}
 
-      {/* White Flash */}
       {showFlash && (
         <motion.div
           className="fixed inset-0 bg-white z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: [0, 1, 0] }}
-          transition={{ 
+          transition={{
             duration: 1.5,
             times: [0, 0.2, 1],
-            ease: "easeOut"
+            ease: "easeOut",
           }}
         />
       )}

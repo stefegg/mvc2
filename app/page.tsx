@@ -7,6 +7,7 @@ import {
 import { useEffect, useRef } from "react";
 import { animate, inView, stagger } from "motion";
 import Link from "next/link";
+import { COLORS } from "@/constants/theme";
 
 export default function Home() {
   const titleSection = useRef<HTMLSpanElement>(null);
@@ -40,7 +41,7 @@ export default function Home() {
         animate(
           ".model-section-animation",
           {
-            color: ["#ffffff", "#23d1f6", "#ffffff", "#03DAc6", "#BB86FC"],
+            color: ["#ffffff", COLORS.NEO_BLUE, "#ffffff", COLORS.NEO_TEAL, COLORS.NEO_PURPLE],
           },
           {
             duration: 0.66,
@@ -50,7 +51,7 @@ export default function Home() {
         animate(
           ".vs-section-animation",
           {
-            color: ["#ffffff", "#BB86FC", "#ffffff", "#23d1f6", "#03DAc6"],
+            color: ["#ffffff", COLORS.NEO_PURPLE, "#ffffff", COLORS.NEO_BLUE, COLORS.NEO_TEAL],
           },
           {
             duration: 0.66,
@@ -60,7 +61,7 @@ export default function Home() {
         animate(
           ".controller-section-animation",
           {
-            color: ["#ffffff", "#BB86FC", "#ffffff", "#03DAc6", "#23d1f6"],
+            color: ["#ffffff", COLORS.NEO_PURPLE, "#ffffff", COLORS.NEO_TEAL, COLORS.NEO_BLUE],
           },
           {
             duration: 0.66,
@@ -146,8 +147,8 @@ export default function Home() {
           <AnimatedBorderButton
             text="S T A R T"
             className="button-show opacity-0"
-            initialColor="#BB86FC"
-            hoverColor="#03DAc6"
+            initialColor={COLORS.NEO_PURPLE}
+            hoverColor={COLORS.NEO_TEAL}
             contentClassName="bg-neo-navy text-neo-blue"
             buttonClassName="w-48 h-12 text-xl bg-transparent bg-neo-navy text-neo-blue hover:text-neo-yellow transition-colors duration-300"
           />
