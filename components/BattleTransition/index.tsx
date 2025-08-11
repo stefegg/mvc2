@@ -61,7 +61,6 @@ const BattleTransition = ({ onComplete }: BattleTransitionProps) => {
 
   return (
     <div className="fixed inset-0 z-50 bg-black">
-      {/* Explosion Circles */}
       {positions.map((position, index) => {
         const isActive = currentExplosion >= index;
         const color = explosionColors[index];

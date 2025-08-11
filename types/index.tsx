@@ -1,4 +1,3 @@
-// Base fighter identification info
 type FighterInfo = {
   id: string;
   name: string;

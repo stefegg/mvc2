@@ -104,14 +104,14 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
         <>
           <motion.h1
             className="text-7xl italic text-center mb-8 font-bold"
-            initial={{ color: COLORS.NEO_BLUE }} // neo-blue
+            initial={{ color: COLORS.NEO_BLUE }}
             animate={{
               color: [
-                COLORS.NEO_BLUE, // neo-blue
-                "#ffffff", // white
-                COLORS.NEO_YELLOW, // neo-yellow
-                "#ffffff", // white
-                COLORS.NEO_BLUE, // neo-blue (final)
+                COLORS.NEO_BLUE,
+                "#ffffff",
+                COLORS.NEO_YELLOW,
+                "#ffffff",
+                COLORS.NEO_BLUE,
               ],
             }}
             transition={{
