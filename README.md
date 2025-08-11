@@ -39,6 +39,7 @@ On this final screen you will see the results of the battle!  You will also see 
 Things I would add with more time:
 - Different fonts / font weights
 - Responsiveness
+- General code check for semantic correctness ie. not using so many divs
 - More borders / color throughout the project, borders that flash when selection takes place
 - A seizure warning
 - High Score screen
