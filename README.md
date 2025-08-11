@@ -52,6 +52,6 @@ Of the bonus items I did not complete - I think that the persisting of previous 
 
 With my love of fighting games, completing this project was a joy.  
 
-##Deployment Notes
+## Deployment Notes
 
 Any branch pushed to this repo will be deployed to a dev branch on vercel, when they are merged into main then a production deployment takes place.  
