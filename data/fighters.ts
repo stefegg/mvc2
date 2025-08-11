@@ -3,7 +3,7 @@ import { Fighter } from "../types";
 export const mockFighters: Fighter[] = [
   // Architects
   {
-    id: "1",
+    id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
     name: "Tony Stark",
     portrait: "/portraits/stark.png",
     origin: "Marvel",
@@ -15,7 +15,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "2",
+    id: "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
     name: "Neo",
     portrait: "/portraits/neo.png",
     origin: "The Matrix",
@@ -27,7 +27,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "3",
+    id: "6ba7b811-9dad-11d1-80b4-00c04fd430c8",
     name: "Lex Luthor",
     portrait: "/portraits/luthor.png",
     origin: "DC Comics",
@@ -39,7 +39,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "4",
+    id: "6ba7b812-9dad-11d1-80b4-00c04fd430c8",
     name: "Lisbeth Salander",
     portrait: "/portraits/lisbeth.png",
     origin: "The Girl with the Dragon Tattoo",
@@ -53,7 +53,7 @@ export const mockFighters: Fighter[] = [
 
   // Operators
   {
-    id: "5",
+    id: "6ba7b813-9dad-11d1-80b4-00c04fd430c8",
     name: "Trinity",
     portrait: "/portraits/trinity.png",
     origin: "The Matrix",
@@ -65,7 +65,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "6",
+    id: "6ba7b814-9dad-11d1-80b4-00c04fd430c8",
     name: "Motoko Kusanagi",
     portrait: "/portraits/motoko.png",
     origin: "Ghost in the Shell",
@@ -77,7 +77,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "7",
+    id: "6ba7b815-9dad-11d1-80b4-00c04fd430c8",
     name: "Bulma",
     portrait: "/portraits/bulma.png",
     origin: "Dragon Ball",
@@ -89,7 +89,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "8",
+    id: "6ba7b816-9dad-11d1-80b4-00c04fd430c8",
     name: "Richard Hendricks",
     portrait: "/portraits/richard.png",
     origin: "Silicon Valley",
@@ -103,7 +103,7 @@ export const mockFighters: Fighter[] = [
 
   // Wildcards
   {
-    id: "9",
+    id: "6ba7b817-9dad-11d1-80b4-00c04fd430c8",
     name: "Dade 'Zero Cool' Murphy",
     portrait: "/portraits/zerocool.png",
     origin: "Hackers",
@@ -115,7 +115,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "10",
+    id: "6ba7b818-9dad-11d1-80b4-00c04fd430c8",
     name: "Chloe O'Brian",
     portrait: "/portraits/obrien.png",
     origin: "24",
@@ -127,7 +127,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "11",
+    id: "6ba7b819-9dad-11d1-80b4-00c04fd430c8",
     name: "Dennis Nedry",
     portrait: "/portraits/nedry.png",
     origin: "Jurassic Park",
@@ -139,7 +139,7 @@ export const mockFighters: Fighter[] = [
     }
   },
   {
-    id: "12",
+    id: "6ba7b81a-9dad-11d1-80b4-00c04fd430c8",
     name: "Data",
     portrait: "/portraits/data.png",
     origin: "Star Trek: The Next Generation",

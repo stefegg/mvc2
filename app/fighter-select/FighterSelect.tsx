@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
+import { motion } from "framer-motion";
 import { Fighter } from "../../types";
 import { useGame } from "../../contexts/GameContext";
 import { useFlashAnimation } from "../../hooks/useFlashAnimation";
@@ -27,12 +28,19 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
 
   const [teamOneReady, setTeamOneReady] = useState(false);
   const [teamTwoReady, setTeamTwoReady] = useState(false);
+  const [searchFilter, setSearchFilter] = useState("");
   const hasLoadedFromUrl = useRef(false);
   const { triggerFlash, flashRef } = useFlashAnimation();
 
   const cachedFighters = useMemo(() => {
     return fighters.length > 0 ? fighters : initialFighters;
   }, [fighters, initialFighters]);
+
+  // Filter fighters by full name for search
+  const isFilterMatch = (fighter: Fighter) => {
+    if (!searchFilter.trim()) return true;
+    return fighter.name.toLowerCase().includes(searchFilter.toLowerCase());
+  };
 
   useEffect(() => {
     if (fighters.length === 0 && initialFighters.length > 0) {
@@ -56,28 +64,19 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     }
   }, [fighters.length, searchParams, loadTeamsFromUrl]);
 
-  const teamOneComplete = teamOne.length === 3;
-  const teamTwoComplete = teamTwo.length === 3;
-
   const handleTeamReady = (teamNumber: 1 | 2) => {
     if (teamNumber === 1) {
-      setTeamOneReady((prev) => {
-        const newState = !prev;
-        if (newState && teamTwoReady) {
-          triggerFlash();
-        }
-        return newState;
-      });
+      setTeamOneReady((prevTeamOne) => !prevTeamOne);
     } else {
-      setTeamTwoReady((prev) => {
-        const newState = !prev;
-        if (newState && teamOneReady) {
-          triggerFlash();
-        }
-        return newState;
-      });
+      setTeamTwoReady((prevTeamTwo) => !prevTeamTwo);
     }
   };
+
+  useEffect(() => {
+    if (teamOneReady && teamTwoReady) {
+      triggerFlash();
+    }
+  }, [teamOneReady, teamTwoReady, triggerFlash]);
 
   const generateRandomTeam = (teamNumber: 1 | 2) => {
     const otherTeam = teamNumber === 1 ? teamTwo : teamOne;
@@ -104,9 +103,38 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
         <BattlePreview onTeamReadyToggle={handleTeamReady} />
       ) : (
         <>
-          <h1 className="text-7xl italic text-center text-neo-blue mb-8 font-bold">
+          <motion.h1
+            className="text-7xl italic text-center mb-8 font-bold"
+            initial={{ color: "#23d1f6" }} // neo-blue
+            animate={{
+              color: [
+                "#23d1f6", // neo-blue
+                "#ffffff", // white
+                "#FFF700", // neo-yellow
+                "#ffffff", // white
+                "#23d1f6", // neo-blue (final)
+              ],
+            }}
+            transition={{
+              duration: 1.0,
+              times: [0, 0.25, 0.5, 0.75, 1],
+              ease: "easeInOut",
+            }}
+          >
             Select Your Fighters
-          </h1>
+          </motion.h1>
+          
+          {/* Search Filter */}
+          <div className="mb-6 flex justify-center">
+            <input
+              type="text"
+              placeholder="Search fighters by name..."
+              value={searchFilter}
+              onChange={(e) => setSearchFilter(e.target.value)}
+              className="px-4 py-2 rounded-lg bg-neo-navy text-neo-blue border border-neo-teal focus:border-neo-yellow focus:outline-none w-80"
+            />
+          </div>
+
           <span className="flex flex-row gap-4">
             <TeamSelectCard
               team={teamOne}
@@ -125,8 +153,9 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                   onAddToTeam={addToTeam}
                   isInTeamOne={teamOne.some((f) => f.id === fighter.id)}
                   isInTeamTwo={teamTwo.some((f) => f.id === fighter.id)}
-                  teamOneComplete={teamOneComplete}
-                  teamTwoComplete={teamTwoComplete}
+                  teamOneComplete={teamOne.length === 3}
+                  teamTwoComplete={teamTwo.length === 3}
+                  isGreyedOut={!isFilterMatch(fighter)}
                 />
               ))}
             </div>

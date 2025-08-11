@@ -28,10 +28,14 @@ type AdjustedTeam = {
     fighterName: string;
     portrait: string;
     adjustedStats: FighterStats;
+    adjustedPower: number;
     advantageCount: number;
   }[];
   totalAdvantages: number;
   totalPower: number;
+  totalLogic: number;
+  totalFlow: number;
+  totalChaos: number;
 };
 
 type TeamFightSummary = {
@@ -45,12 +49,22 @@ type TeamFightSummary = {
 };
 
 type FightResult = {
+  id: string;
   teamOneSummary: TeamFightSummary;
   teamTwoSummary: TeamFightSummary;
   teamOneSkill: number;
   teamTwoSkill: number;
+  teamOneFinalPower: number;
+  teamTwoFinalPower: number;
   winner: "teamOne" | "teamTwo" | "draw";
-  mvp: Fighter;
+  mvp: {
+    fighterId: string;
+    fighterName: string;
+    portrait: string;
+    adjustedPower: number;
+    advantageCount: number;
+    team: "teamOne" | "teamTwo";
+  };
 };
 
 export type {

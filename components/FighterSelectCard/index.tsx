@@ -11,6 +11,7 @@ interface FighterSelectCardProps {
   isInTeamTwo: boolean;
   teamOneComplete: boolean;
   teamTwoComplete: boolean;
+  isGreyedOut?: boolean;
 }
 
 const FighterSelectCard = ({
@@ -20,6 +21,7 @@ const FighterSelectCard = ({
   isInTeamTwo,
   teamOneComplete,
   teamTwoComplete,
+  isGreyedOut = false,
 }: FighterSelectCardProps) => {
   const getBgColor = () => {
     switch (fighter.stats.type) {
@@ -44,6 +46,7 @@ const FighterSelectCard = ({
         width={500}
         height={500}
         style={{ width: "100%", height: "auto", borderRadius: "8px" }}
+        className={isGreyedOut ? "grayscale opacity-50" : ""}
       />
       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 bg-black/80 flex flex-col w-full">
         <div className="flex flex-row gap-4 justify-center">
