@@ -1,10 +1,12 @@
-import AnimatedBorderDiv from "../AnimatedBorderDiv";
-import Button from "../Button";
+import AnimatedBorderButton from "../AnimatedBorderButton";
 import TeamPreviewCard from "./TeamPreviewCard";
 import { useMemo } from "react";
 import { useGame } from "@/contexts/GameContext";
+import { useBattleResults } from "@/contexts/BattleResultsContext";
 import { Team } from "@/types";
-import { createBattlePreview } from "../../utils";
+import { createBattlePreview, calculateBattleResult } from "../../utils";
+import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
 
 interface BattlePreviewProps {
   onTeamReadyToggle: (teamNumber: 1 | 2) => void;
@@ -12,16 +14,18 @@ interface BattlePreviewProps {
 
 const BattlePreview = ({ onTeamReadyToggle }: BattlePreviewProps) => {
   const { teamOne, teamTwo } = useGame();
+  const { saveFightResult } = useBattleResults();
+  const router = useRouter();
 
   const battlePreview = useMemo(() => {
     if (teamOne.length === 3 && teamTwo.length === 3) {
       const teamOneObj: Team = {
-        id: `team-one-${Date.now()}`,
+        id: uuidv4(),
         fighters: teamOne,
       };
 
       const teamTwoObj: Team = {
-        id: `team-two-${Date.now()}`,
+        id: uuidv4(),
         fighters: teamTwo,
       };
 
@@ -44,6 +48,19 @@ const BattlePreview = ({ onTeamReadyToggle }: BattlePreviewProps) => {
     alert("URL copied to clipboard!");
   };
 
+  const handleSeeResult = () => {
+    if (!battlePreview || battlePreview.length !== 2) return;
+    
+    // Calculate the battle result
+    const result = calculateBattleResult(battlePreview[0], battlePreview[1]);
+    
+    // Save the result and get the ID
+    const resultId = saveFightResult(result);
+    
+    // Navigate to the result screen
+    router.push(`/result-screen/${resultId}`);
+  };
+
   if (!battlePreview) {
     return <div>Loading battle preview...</div>;
   }
@@ -63,20 +80,22 @@ const BattlePreview = ({ onTeamReadyToggle }: BattlePreviewProps) => {
           />
         ))}
       </div>
-      <AnimatedBorderDiv
-        initialColor="#03DAc6"
-        hoverColor="#BB86FC"
-        contentClassName="bg-neo-navy text-neo-teal"
-      >
-        <Button text="F I G H T!" onClick={handleCopyUrl} />
-      </AnimatedBorderDiv>
-      <AnimatedBorderDiv
-        initialColor="#03DAc6"
-        hoverColor="#BB86FC"
-        contentClassName="bg-neo-navy text-neo-teal"
-      >
-        <Button text="Copy Battle URL" onClick={handleCopyUrl} />
-      </AnimatedBorderDiv>
+      <div className="flex flex-row gap-4 w-full justify-center">
+        <AnimatedBorderButton
+          text="SEE RESULT!"
+          onClick={handleSeeResult}
+          initialColor="#03DAc6"
+          hoverColor="#BB86FC"
+          contentClassName="bg-neo-navy text-neo-teal"
+        />
+        <AnimatedBorderButton
+          text="Copy Battle URL"
+          onClick={handleCopyUrl}
+          initialColor="#03DAc6"
+          hoverColor="#BB86FC"
+          contentClassName="bg-neo-navy text-neo-teal"
+        />
+      </div>
     </div>
   );
 };

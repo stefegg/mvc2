@@ -1,15 +1,19 @@
 import Title from "./Title";
 import Button from "./Button";
 import TitleBackground from "./TitleBackground";
-import AnimatedBorderDiv from "./AnimatedBorderDiv";
+import AnimatedBorderButton from "./AnimatedBorderButton";
 import FighterSelectCard from "./FighterSelectCard";
+import FighterStats from "./FighterStats";
 import BattlePreview from "./BattlePreview";
+import TeamSelectCard from "./TeamSelectCard";
 
 export {
   Title,
   Button,
   TitleBackground,
-  AnimatedBorderDiv,
+  AnimatedBorderButton,
   FighterSelectCard,
+  FighterStats,
   BattlePreview,
+  TeamSelectCard,
 };

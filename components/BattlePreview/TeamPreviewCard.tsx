@@ -1,20 +1,42 @@
 import { TeamFightSummary } from "@/types";
-import Button from "../Button";
-import AnimatedBorderDiv from "../AnimatedBorderDiv";
-
+import AnimatedBorderButton from "../AnimatedBorderButton";
+import Image from "next/image";
 interface TeamPreviewCardProps {
   teamSummary: TeamFightSummary;
   teamNumber: 1 | 2;
   onGoBack: (teamNumber: 1 | 2) => void;
 }
 
-const TeamPreviewCard = ({ teamSummary, teamNumber, onGoBack }: TeamPreviewCardProps) => {
+const TeamPreviewCard = ({
+  teamSummary,
+  teamNumber,
+  onGoBack,
+}: TeamPreviewCardProps) => {
   return (
     <div className="bg-neo-navy p-4 rounded-lg">
       <h3 className="text-neo-blue text-xl mb-2">Team {teamNumber} Summary</h3>
-      <div className="text-neo-teal space-y-1">
+      <p>Total Adjusted Stats: {teamSummary.totalPower}</p>
+      <p className="text-sm">
+        Logic: {teamSummary.totalLogic} | Flow: {teamSummary.totalFlow} | Chaos:{" "}
+        {teamSummary.totalChaos}
+      </p>
+      <p>Total Advantages: {teamSummary.totalAdvantages}</p>
+      <p className="text-neo-yellow text-lg font-bold">
+        Win Chance: {teamSummary.winPercentage}%
+      </p>
+      <div className="text-neo-teal space-y-1 flex flex-row justify-center gap-4">
         {teamSummary.team.fighters.map((fighter) => (
-          <div key={fighter.fighterId} className="mb-2">
+          <div
+            key={fighter.fighterId}
+            className="mb-2 flex flex-col items-center text-md"
+          >
+            <Image
+              src={fighter.portrait}
+              alt={fighter.fighterName}
+              width={75}
+              height={75}
+              className="rounded-md"
+            />
             <h4 className="text-neo-purple">{fighter.fighterName}</h4>
             <p>Adjusted Logic: {fighter.adjustedStats.logic}</p>
             <p>Adjusted Flow: {fighter.adjustedStats.flow}</p>
@@ -22,27 +44,15 @@ const TeamPreviewCard = ({ teamSummary, teamNumber, onGoBack }: TeamPreviewCardP
             <p>Advantages Over Opponent: {fighter.advantageCount}</p>
           </div>
         ))}
-        <p>Total Adjusted Stats: {teamSummary.totalPower}</p>
-        <p className="text-sm">
-          Logic: {teamSummary.totalLogic} | Flow: {teamSummary.totalFlow} |
-          Chaos: {teamSummary.totalChaos}
-        </p>
-        <p>Total Advantages: {teamSummary.totalAdvantages}</p>
-        <p className="text-neo-yellow text-lg font-bold">
-          Win Chance: {teamSummary.winPercentage}%
-        </p>
-        <div className="mt-4">
-          <AnimatedBorderDiv
-            initialColor="#FF6B6B"
-            hoverColor="#FFF700"
-            contentClassName="bg-neo-navy text-neo-blue"
-          >
-            <Button 
-              text="Go Back" 
-              onClick={() => onGoBack(teamNumber)}
-            />
-          </AnimatedBorderDiv>
-        </div>
+      </div>
+      <div className="mt-4">
+        <AnimatedBorderButton
+          text="Go Back"
+          onClick={() => onGoBack(teamNumber)}
+          initialColor="#FF6B6B"
+          hoverColor="#FFF700"
+          contentClassName="bg-neo-navy text-neo-blue"
+        />
       </div>
     </div>
   );

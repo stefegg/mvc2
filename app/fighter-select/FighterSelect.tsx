@@ -2,15 +2,11 @@
 
 import { useEffect, useMemo, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
-import { animate } from "motion";
+import { motion } from "framer-motion";
 import { Fighter } from "../../types";
 import { useGame } from "../../contexts/GameContext";
-import {
-  Button,
-  AnimatedBorderDiv,
-  FighterSelectCard,
-  BattlePreview,
-} from "@/components";
+import { useFlashAnimation } from "../../hooks/useFlashAnimation";
+import { FighterSelectCard, BattlePreview, TeamSelectCard } from "@/components";
 
 interface FighterSelectProps {
   initialFighters: Fighter[];
@@ -25,18 +21,26 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     clearTeam,
     setTeam,
     addToTeam,
+    removeFromTeam,
     teamOne,
     teamTwo,
   } = useGame();
 
   const [teamOneReady, setTeamOneReady] = useState(false);
   const [teamTwoReady, setTeamTwoReady] = useState(false);
+  const [searchFilter, setSearchFilter] = useState("");
   const hasLoadedFromUrl = useRef(false);
-  const screenFlashRef = useRef<HTMLDivElement>(null);
+  const { triggerFlash, flashRef } = useFlashAnimation();
 
   const cachedFighters = useMemo(() => {
     return fighters.length > 0 ? fighters : initialFighters;
   }, [fighters, initialFighters]);
+
+  // Filter fighters by full name for search
+  const isFilterMatch = (fighter: Fighter) => {
+    if (!searchFilter.trim()) return true;
+    return fighter.name.toLowerCase().includes(searchFilter.toLowerCase());
+  };
 
   useEffect(() => {
     if (fighters.length === 0 && initialFighters.length > 0) {
@@ -60,27 +64,19 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     }
   }, [fighters.length, searchParams, loadTeamsFromUrl]);
 
-  const teamOneComplete = teamOne.length === 3;
-  const teamTwoComplete = teamTwo.length === 3;
-
-  const triggerFlash = () => {
-    if (screenFlashRef.current) {
-      animate(screenFlashRef.current, { opacity: 1 }, { duration: 0.3 }).then(
-        () => {
-          animate(screenFlashRef.current!, { opacity: 0 }, { duration: 0.6 });
-        }
-      );
-    }
-  };
-
   const handleTeamReady = (teamNumber: 1 | 2) => {
-    triggerFlash();
     if (teamNumber === 1) {
-      setTeamOneReady((prev) => !prev);
+      setTeamOneReady((prevTeamOne) => !prevTeamOne);
     } else {
-      setTeamTwoReady((prev) => !prev);
+      setTeamTwoReady((prevTeamTwo) => !prevTeamTwo);
     }
   };
+
+  useEffect(() => {
+    if (teamOneReady && teamTwoReady) {
+      triggerFlash();
+    }
+  }, [teamOneReady, teamTwoReady, triggerFlash]);
 
   const generateRandomTeam = (teamNumber: 1 | 2) => {
     const otherTeam = teamNumber === 1 ? teamTwo : teamOne;
@@ -93,139 +89,87 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     const randomTeam = shuffled.slice(0, 3);
 
     setTeam(randomTeam, teamNumber);
-
-    triggerFlash();
   };
 
   return (
     <>
       {/* Screen flash overlay */}
       <div
-        ref={screenFlashRef}
-        className="fixed inset-0 z-50 pointer-events-none opacity-0"
-        style={{ backgroundColor: "white" }}
+        ref={flashRef}
+        className="fixed inset-0 z-50 pointer-events-none opacity-0 bg-white"
       />
 
       {teamOneReady && teamTwoReady ? (
         <BattlePreview onTeamReadyToggle={handleTeamReady} />
       ) : (
         <>
-          <h1 className="text-7xl italic text-center text-neo-blue mb-8 font-bold">
+          <motion.h1
+            className="text-7xl italic text-center mb-8 font-bold"
+            initial={{ color: "#23d1f6" }} // neo-blue
+            animate={{
+              color: [
+                "#23d1f6", // neo-blue
+                "#ffffff", // white
+                "#FFF700", // neo-yellow
+                "#ffffff", // white
+                "#23d1f6", // neo-blue (final)
+              ],
+            }}
+            transition={{
+              duration: 1.0,
+              times: [0, 0.25, 0.5, 0.75, 1],
+              ease: "easeInOut",
+            }}
+          >
             Select Your Fighters
-          </h1>
-          <span className="grid grid-cols-12 grid-rows-[auto_auto] p-4">
-            <div className="col-start-4 col-end-6 row-start-1 row-end-2">
-              Team One:
-              {teamOne.map((f) => (
-                <div key={f.id}>{f.name}</div>
-              ))}
-            </div>
-            <div className="col-start-4 col-end-6 row-start-2 row-end-3 flex flex-row justify-evenly gap-2">
-              <AnimatedBorderDiv
-                initialColor={teamOneComplete ? "#03DAc6" : "#666666"}
-                hoverColor={teamOneComplete ? "#FFF700" : "#666666"}
-                contentClassName={`${
-                  teamOneComplete
-                    ? "bg-neo-navy text-neo-blue"
-                    : "bg-gray-700 text-gray-400"
-                }`}
-              >
-                <Button
-                  text={teamOneReady ? "Unready" : "Ready"}
-                  onClick={() => handleTeamReady(1)}
-                  disabled={!teamOneComplete}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
-                initialColor={
-                  !teamOneReady && teamOne.length > 0 ? "#FF6B6B" : "#666666"
-                }
-                hoverColor={
-                  !teamOneReady && teamOne.length > 0 ? "#FFF700" : "#666666"
-                }
-                contentClassName={`${
-                  !teamOneReady && teamOne.length > 0
-                    ? "bg-neo-navy text-neo-blue"
-                    : "bg-gray-700 text-gray-400"
-                }`}
-              >
-                <Button
-                  text="Reset"
-                  onClick={() => clearTeam(1)}
-                  disabled={teamOne.length === 0}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
-                initialColor="#03DAc6"
-                hoverColor="#FFF700"
-                contentClassName="bg-neo-navy text-neo-blue"
-              >
-                <Button text="Random" onClick={() => generateRandomTeam(1)} />
-              </AnimatedBorderDiv>
-            </div>
-            <div className="col-start-8 col-end-10 row-start-1 row-end-2">
-              Team Two:
-              {teamTwo.map((f) => (
-                <div key={f.id}>{f.name}</div>
-              ))}
-            </div>
-            <div className="col-start-8 col-end-10 row-start-2 row-end-3 flex flex-row justify-evenly gap-2">
-              <AnimatedBorderDiv
-                initialColor={teamTwoComplete ? "#03DAc6" : "#666666"}
-                hoverColor={teamTwoComplete ? "#FFF700" : "#666666"}
-                contentClassName={`${
-                  teamTwoComplete
-                    ? "bg-neo-navy text-neo-blue"
-                    : "bg-gray-700 text-gray-400"
-                }`}
-              >
-                <Button
-                  text={teamTwoReady ? "Unready" : "Ready"}
-                  onClick={() => handleTeamReady(2)}
-                  disabled={!teamTwoComplete}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
-                initialColor={
-                  !teamTwoReady && teamTwo.length > 0 ? "#FF6B6B" : "#666666"
-                }
-                hoverColor={
-                  !teamTwoReady && teamTwo.length > 0 ? "#FFF700" : "#666666"
-                }
-                contentClassName={`${
-                  !teamTwoReady && teamTwo.length > 0
-                    ? "bg-neo-navy text-neo-blue"
-                    : "bg-gray-700 text-gray-400"
-                }`}
-              >
-                <Button
-                  text="Reset"
-                  onClick={() => clearTeam(2)}
-                  disabled={teamTwo.length === 0}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
-                initialColor="#03DAc6"
-                hoverColor="#FFF700"
-                contentClassName="bg-neo-navy text-neo-blue"
-              >
-                <Button text="Random" onClick={() => generateRandomTeam(2)} />
-              </AnimatedBorderDiv>
-            </div>
-          </span>
-          <div className="grid grid-cols-4 gap-4">
-            {cachedFighters.map((fighter) => (
-              <FighterSelectCard
-                key={fighter.id}
-                fighter={fighter}
-                onAddToTeam={addToTeam}
-                isInTeamOne={teamOne.some((f) => f.id === fighter.id)}
-                isInTeamTwo={teamTwo.some((f) => f.id === fighter.id)}
-                teamOneComplete={teamOneComplete}
-                teamTwoComplete={teamTwoComplete}
-              />
-            ))}
+          </motion.h1>
+          
+          {/* Search Filter */}
+          <div className="mb-6 flex justify-center">
+            <input
+              type="text"
+              placeholder="Search fighters by name..."
+              value={searchFilter}
+              onChange={(e) => setSearchFilter(e.target.value)}
+              className="px-4 py-2 rounded-lg bg-neo-navy text-neo-blue border border-neo-teal focus:border-neo-yellow focus:outline-none w-80"
+            />
           </div>
+
+          <span className="flex flex-row gap-4">
+            <TeamSelectCard
+              team={teamOne}
+              teamNo={1}
+              teamReady={teamOneReady}
+              handleTeamReady={handleTeamReady}
+              clearTeam={clearTeam}
+              generateRandomTeam={generateRandomTeam}
+              removeFromTeam={removeFromTeam}
+            />
+            <div className="grid grid-cols-4 gap-4">
+              {cachedFighters.map((fighter) => (
+                <FighterSelectCard
+                  key={fighter.id}
+                  fighter={fighter}
+                  onAddToTeam={addToTeam}
+                  isInTeamOne={teamOne.some((f) => f.id === fighter.id)}
+                  isInTeamTwo={teamTwo.some((f) => f.id === fighter.id)}
+                  teamOneComplete={teamOne.length === 3}
+                  teamTwoComplete={teamTwo.length === 3}
+                  isGreyedOut={!isFilterMatch(fighter)}
+                />
+              ))}
+            </div>
+            <TeamSelectCard
+              team={teamTwo}
+              teamNo={2}
+              teamReady={teamTwoReady}
+              handleTeamReady={handleTeamReady}
+              clearTeam={clearTeam}
+              generateRandomTeam={generateRandomTeam}
+              removeFromTeam={removeFromTeam}
+              bgColor="bg-neo-navy"
+            />
+          </span>
         </>
       )}
     </>

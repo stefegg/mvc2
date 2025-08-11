@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { fetchFighters } from "../../lib/api";
 import FighterSelect from "./FighterSelect";
 
@@ -6,7 +7,9 @@ export default async function Page() {
 
   return (
     <div className="min-h-screen p-8">
-      <FighterSelect initialFighters={fighters} />
+      <Suspense fallback={<div className="text-white text-center">Loading fighters...</div>}>
+        <FighterSelect initialFighters={fighters} />
+      </Suspense>
     </div>
   );
 }
