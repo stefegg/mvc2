@@ -5,7 +5,7 @@
   --foreground: #171717;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -15,6 +15,7 @@
   --color-neo-teal: #03DAc6;
   --color-neo-blue: #23d1f6;
   --color-neo-navy: #3700b3;
+  --color-neo-yellow: #FFF700;
 }
 
 .model-section-animation {

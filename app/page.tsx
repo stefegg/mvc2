@@ -4,7 +4,7 @@ import {
   TitleBackground,
   Button,
   AnimatedBorderDiv,
-} from "./_components";
+} from "../components";
 import { useEffect, useRef } from "react";
 import { animate, inView, stagger } from "motion";
 import Link from "next/link";
@@ -147,11 +147,12 @@ export default function Home() {
           className="button-show opacity-0"
           initialColor="#BB86FC"
           hoverColor="#03DAc6"
+          contentClassName="bg-neo-navy text-neo-blue"
         >
           <Link href="/fighter-select">
             <Button
               text="S T A R T"
-              className="w-48 h-12 text-xl bg-neo-navy text-neo-blue"
+              className="w-48 h-12 text-xl bg-transparent bg-neo-navy text-neo-blue hover:text-neo-yellow transition-colors duration-300"
             />
           </Link>
         </AnimatedBorderDiv>
