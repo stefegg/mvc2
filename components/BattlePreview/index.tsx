@@ -7,6 +7,7 @@ import { Team } from "@/types";
 import { createBattlePreview, calculateBattleResult } from "../../utils";
 import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
+import { COLORS } from "@/constants/theme";
 
 interface BattlePreviewProps {
   onTeamReadyToggle: (teamNumber: 1 | 2) => void;
@@ -84,15 +85,15 @@ const BattlePreview = ({ onTeamReadyToggle }: BattlePreviewProps) => {
         <AnimatedBorderButton
           text="SEE RESULT!"
           onClick={handleSeeResult}
-          initialColor="#03DAc6"
-          hoverColor="#BB86FC"
+          initialColor={COLORS.NEO_TEAL}
+          hoverColor={COLORS.NEO_PURPLE}
           contentClassName="bg-neo-navy text-neo-teal"
         />
         <AnimatedBorderButton
           text="Copy Battle URL"
           onClick={handleCopyUrl}
-          initialColor="#03DAc6"
-          hoverColor="#BB86FC"
+          initialColor={COLORS.NEO_TEAL}
+          hoverColor={COLORS.NEO_PURPLE}
           contentClassName="bg-neo-navy text-neo-teal"
         />
       </div>

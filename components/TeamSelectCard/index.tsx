@@ -3,7 +3,7 @@ import AnimatedBorderButton from "../AnimatedBorderButton";
 import FighterStats from "../FighterStats";
 import { Fighter } from "@/types";
 import { useFlashAnimation } from "../../hooks/useFlashAnimation";
-import { BUTTON_STYLES, COMMON_CLASSES } from "../../constants/theme";
+import { BUTTON_STYLES, COMMON_CLASSES, COLORS } from "../../constants/theme";
 
 type TeamSelectCardProps = {
   team: Fighter[];
@@ -71,16 +71,16 @@ const TeamSelectCard = ({
             handleTeamReady(teamNo);
           }}
           disabled={team.length !== 3}
-          initialColor={team.length === 3 ? BUTTON_STYLES.READY.initialColor : "#666666"}
-          hoverColor={team.length === 3 ? BUTTON_STYLES.READY.hoverColor : "#666666"}
+          initialColor={team.length === 3 ? BUTTON_STYLES.READY.initialColor : COLORS.GRAY_DISABLED}
+          hoverColor={team.length === 3 ? BUTTON_STYLES.READY.hoverColor : COLORS.GRAY_DISABLED}
           contentClassName={team.length === 3 ? COMMON_CLASSES.BUTTON_PRIMARY_ACTIVE : COMMON_CLASSES.BUTTON_PRIMARY_DISABLED}
         />
         <AnimatedBorderButton
           text="Reset"
           onClick={() => clearTeam(teamNo)}
           disabled={team.length === 0 || teamReady}
-          initialColor={!teamReady && team.length > 0 ? BUTTON_STYLES.RESET.initialColor : "#666666"}
-          hoverColor={!teamReady && team.length > 0 ? BUTTON_STYLES.RESET.hoverColor : "#666666"}
+          initialColor={!teamReady && team.length > 0 ? BUTTON_STYLES.RESET.initialColor : COLORS.GRAY_DISABLED}
+          hoverColor={!teamReady && team.length > 0 ? BUTTON_STYLES.RESET.hoverColor : COLORS.GRAY_DISABLED}
           contentClassName={!teamReady && team.length > 0 ? COMMON_CLASSES.BUTTON_PRIMARY_ACTIVE : COMMON_CLASSES.BUTTON_PRIMARY_DISABLED}
         />
         <AnimatedBorderButton

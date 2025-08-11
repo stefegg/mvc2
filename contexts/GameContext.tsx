@@ -1,6 +1,13 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useCallback,
+  useMemo,
+} from "react";
 import { Fighter } from "../types";
 
 interface GameContextType {
@@ -39,59 +46,89 @@ export const GameProvider = ({ children }: GameProviderProps) => {
   const [teamOne, setTeamOne] = useState<Fighter[]>([]);
   const [teamTwo, setTeamTwo] = useState<Fighter[]>([]);
 
-  const addToTeam = (fighter: Fighter, teamNumber: 1 | 2) => {
-    const setTeam = teamNumber === 1 ? setTeamOne : setTeamTwo;
-    const currentTeam = teamNumber === 1 ? teamOne : teamTwo;
+  const getTeamOperations = useCallback(
+    (teamNumber: 1 | 2) => ({
+      currentTeam: teamNumber === 1 ? teamOne : teamTwo,
+      setTeam: teamNumber === 1 ? setTeamOne : setTeamTwo,
+    }),
+    [teamOne, teamTwo]
+  );
 
-    if (
-      currentTeam.length < 3 &&
-      !currentTeam.find((f) => f.id === fighter.id)
-    ) {
-      setTeam([...currentTeam, fighter]);
-    }
-  };
+  const addToTeam = useCallback(
+    (fighter: Fighter, teamNumber: 1 | 2) => {
+      const { currentTeam, setTeam } = getTeamOperations(teamNumber);
 
-  const removeFromTeam = (fighterId: string, teamNumber: 1 | 2) => {
-    const setTeam = teamNumber === 1 ? setTeamOne : setTeamTwo;
-    const currentTeam = teamNumber === 1 ? teamOne : teamTwo;
+      if (
+        currentTeam.length < 3 &&
+        !currentTeam.find((f) => f.id === fighter.id)
+      ) {
+        setTeam([...currentTeam, fighter]);
+      }
+    },
+    [getTeamOperations]
+  );
 
-    setTeam(currentTeam.filter((f) => f.id !== fighterId));
-  };
+  const removeFromTeam = useCallback(
+    (fighterId: string, teamNumber: 1 | 2) => {
+      const { currentTeam, setTeam } = getTeamOperations(teamNumber);
 
-  const clearTeam = (teamNumber: 1 | 2) => {
-    const setTeam = teamNumber === 1 ? setTeamOne : setTeamTwo;
-    setTeam([]);
-  };
+      setTeam(currentTeam.filter((f) => f.id !== fighterId));
+    },
+    [getTeamOperations]
+  );
 
-  const setTeam = (fighters: Fighter[], teamNumber: 1 | 2) => {
-    const setTeamState = teamNumber === 1 ? setTeamOne : setTeamTwo;
-    setTeamState(fighters);
-  };
+  const clearTeam = useCallback(
+    (teamNumber: 1 | 2) => {
+      const { setTeam } = getTeamOperations(teamNumber);
+      setTeam([]);
+    },
+    [getTeamOperations]
+  );
 
-  const loadTeamsFromUrl = (teamOneIds: string[], teamTwoIds: string[]) => {
-    const teamOneFighters = fighters.filter((f) => teamOneIds.includes(f.id));
-    const teamTwoFighters = fighters.filter((f) => teamTwoIds.includes(f.id));
+  const setTeam = useCallback(
+    (fighters: Fighter[], teamNumber: 1 | 2) => {
+      const { setTeam: setTeamState } = getTeamOperations(teamNumber);
+      setTeamState(fighters);
+    },
+    [getTeamOperations]
+  );
 
-    setTeamOne(teamOneFighters);
-    setTeamTwo(teamTwoFighters);
-  };
+  const loadTeamsFromUrl = useCallback(
+    (teamOneIds: string[], teamTwoIds: string[]) => {
+      const teamOneFighters = fighters.filter((f) => teamOneIds.includes(f.id));
+      const teamTwoFighters = fighters.filter((f) => teamTwoIds.includes(f.id));
 
+      setTeamOne(teamOneFighters);
+      setTeamTwo(teamTwoFighters);
+    },
+    [fighters]
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      fighters,
+      setFighters,
+      teamOne,
+      teamTwo,
+      addToTeam,
+      removeFromTeam,
+      clearTeam,
+      setTeam,
+      loadTeamsFromUrl,
+    }),
+    [
+      fighters,
+      teamOne,
+      teamTwo,
+      addToTeam,
+      removeFromTeam,
+      clearTeam,
+      setTeam,
+      loadTeamsFromUrl,
+    ]
+  );
 
   return (
-    <GameContext.Provider
-      value={{
-        fighters,
-        setFighters,
-        teamOne,
-        teamTwo,
-        addToTeam,
-        removeFromTeam,
-        clearTeam,
-        setTeam,
-        loadTeamsFromUrl,
-      }}
-    >
-      {children}
-    </GameContext.Provider>
+    <GameContext.Provider value={contextValue}>{children}</GameContext.Provider>
   );
 };
