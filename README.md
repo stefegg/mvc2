@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
+Pull down the project and then install with the 
+```bash
+npm i
+```
+command
 
-First, run the development server:
+Then, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Alternative Startup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Visit https://mvc2.vercel.app/
 
-## Learn More
+PLEASE RUN IN FULL SCREEN FOR THE BEST USER EXPERIENCE
 
-To learn more about Next.js, take a look at the following resources:
+## How to Play
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Select 3 fighters for each team, then hit your ready button.  You may clear your team selections by hitting reset, hitting random will give you 3 random fighters and clear any current selections.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each fighter has a type "Architect" "Operator" or "Wildcard" and each type has an advantage over another.  Architect > Operator > Wildcard > Architect.  For each fighter on the opposing team that any one fighter has an advantage over, they get 1 advantage.
 
-## Deploy on Vercel
+Fighters can have a total of 3 advantages, which increase their power exponentially. 
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Once both teams hit Ready, you are taken to the Battle Preview screen where you will see how the teams stand up against one another.  You may share the url that this screen generates for you with other users, to share your battle combinations.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+When you hit "See Result" - the battle actually takes place.  A final stat is added - Player Skill, which helps determine the winner.
+
+On this final screen you will see the results of the battle!  You will also see the MVP of the battle - this is the fighter on the winning team who had the highest power.  Because of the random nature of player skill - no two battles will come out exactly the same.
+
+
+## Completion Notes
+
+Things I would add with more time:
+- Different fonts / font weights
+- More borders / color throughout the project, borders that flash when selection takes place
+- A seizure warning
+- High Score screen
+- A back end
+- More animation to the battle screen - it wouldn't be hard to get a couple of sprites and have them dance around and smash into each other before you got your results.  I think this would be a really cool effect.
+- Sound effects
+
+Speaking of back end - of note is the BattleResultsContext, this really wouldn't exist if this thing had an actual back end.  Having saved battle results would allow the urls of THAT screen to be shared across sections, which would be great, and would allow for something like the High Score Screen.
+
+Of the bonus items I did not complete - I think that the persisting of previous selections would be really easy to add, but I ran out of time.  Drag and drop I purposely did not do here, because given the time constraints my sense was that there was a very real possibility that this feature could take up the entire 8 hours, or at least more of it than I was willing to give.  It's a cool idea though, and would definitely be on the list. I think the use of AI to simulate the battle / generate results was a red herring here, and if someone went for that, you'd basically know to fail them cause that's kind of a bonkers thing to try here with the time limit.  Not as egregious as the drag and drop, but just my thoughts.
+
+With my love of fighting games, completing this project was a joy.  
