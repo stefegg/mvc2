@@ -8,14 +8,14 @@ function ResultScreen({ fightResult }: { fightResult: FightResult }) {
     <div className="text-white flex flex-col w-full items-center min-h-screen p-8">
       <motion.h1
         className="text-7xl italic text-center mb-8 font-bold"
-        initial={{ color: COLORS.NEO_RED }} // neo-red
+        initial={{ color: COLORS.NEO_RED }}
         animate={{
           color: [
-            COLORS.NEO_RED, // neo-red
-            COLORS.NEO_YELLOW, // neo-yellow
-            "#ffffff", // white
-            COLORS.NEO_YELLOW, // neo-yellow
-            COLORS.NEO_RED, // neo-red (final)
+            COLORS.NEO_RED,
+            COLORS.NEO_YELLOW,
+            "#ffffff",
+            COLORS.NEO_YELLOW,
+            COLORS.NEO_RED,
           ],
         }}
         transition={{
@@ -77,9 +77,7 @@ function ResultScreen({ fightResult }: { fightResult: FightResult }) {
             height={400}
             className="rounded-full mb-4 border border-2 border-neo-yellow"
           />
-          <h3 className="text-4xl text-neo-blue">
-            {fightResult.mvp.name}
-          </h3>
+          <h3 className="text-4xl text-neo-blue">{fightResult.mvp.name}</h3>
           <div className="grid grid-cols-2 w-full px-8 text-neo-yellow">
             <p className="col-span-1 flex justify-start text-4xl">
               Total Power: {fightResult.mvp.adjustedPower}
