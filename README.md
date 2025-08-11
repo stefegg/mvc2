@@ -51,3 +51,7 @@ Speaking of back end - of note is the BattleResultsContext, this really wouldn't
 Of the bonus items I did not complete - I think that the persisting of previous selections would be really easy to add, but I ran out of time.  Drag and drop I purposely did not do here, because given the time constraints my sense was that there was a very real possibility that this feature could take up the entire 8 hours, or at least more of it than I was willing to give.  It's a cool idea though, and would definitely be on the list. I think the use of AI to simulate the battle / generate results was a red herring here, and if someone went for that, you'd basically know to fail them cause that's kind of a bonkers thing to try here with the time limit.  Not as egregious as the drag and drop, but just my thoughts.
 
 With my love of fighting games, completing this project was a joy.  
+
+##Deployment Notes
+
+Any branch pushed to this repo will be deployed to a dev branch on vercel, when they are merged into main then a production deployment takes place.  
