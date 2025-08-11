@@ -26,6 +26,7 @@ function getAdjustedTeam(team: Team, opponent: Team) {
     return {
       fighterId: fighter.id,
       fighterName: fighter.name,
+      portrait: fighter.portrait,
       adjustedStats: {
         ...fighter.stats,
         [statKey]: fighter.stats[statKey] + bonus,

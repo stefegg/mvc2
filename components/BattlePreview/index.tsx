@@ -62,20 +62,22 @@ const BattlePreview = ({ onTeamReadyToggle }: BattlePreviewProps) => {
           />
         ))}
       </div>
-      <AnimatedBorderButton
-        text="F I G H T!"
-        onClick={handleCopyUrl}
-        initialColor="#03DAc6"
-        hoverColor="#BB86FC"
-        contentClassName="bg-neo-navy text-neo-teal"
-      />
-      <AnimatedBorderButton
-        text="Copy Battle URL"
-        onClick={handleCopyUrl}
-        initialColor="#03DAc6"
-        hoverColor="#BB86FC"
-        contentClassName="bg-neo-navy text-neo-teal"
-      />
+      <div className="flex flex-row gap-4 w-full justify-center">
+        <AnimatedBorderButton
+          text="SEE RESULT!"
+          onClick={handleCopyUrl}
+          initialColor="#03DAc6"
+          hoverColor="#BB86FC"
+          contentClassName="bg-neo-navy text-neo-teal"
+        />
+        <AnimatedBorderButton
+          text="Copy Battle URL"
+          onClick={handleCopyUrl}
+          initialColor="#03DAc6"
+          hoverColor="#BB86FC"
+          contentClassName="bg-neo-navy text-neo-teal"
+        />
+      </div>
     </div>
   );
 };

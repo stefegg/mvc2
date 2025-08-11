@@ -26,6 +26,7 @@ type AdjustedTeam = {
   fighters: {
     fighterId: string;
     fighterName: string;
+    portrait: string;
     adjustedStats: FighterStats;
     advantageCount: number;
   }[];

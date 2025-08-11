@@ -1,6 +1,8 @@
 import { Fighter } from "@/types";
 import Button from "../Button";
+import FighterStats from "../FighterStats";
 import Image from "next/image";
+import { COMMON_CLASSES } from "../../constants/theme";
 
 interface FighterSelectCardProps {
   fighter: Fighter;
@@ -34,7 +36,7 @@ const FighterSelectCard = ({
   return (
     <div
       key={fighter.id}
-      className={`${getBgColor()} p-4 rounded-lg flex flex-col items-center relative`}
+      className={`${getBgColor()} p-4 rounded-lg flex flex-col items-center relative group`}
     >
       <Image
         src={`${fighter.portrait}`}
@@ -43,18 +45,16 @@ const FighterSelectCard = ({
         height={500}
         style={{ width: "100%", height: "auto", borderRadius: "8px" }}
       />
-      <div className="absolute bottom-0 bg-black/80 flex flex-col w-full">
+      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 absolute bottom-0 bg-black/80 flex flex-col w-full">
         <div className="flex flex-row gap-4 justify-center">
-          <p className="text-neo-yellow">{fighter.name}</p>
-          <p className="text-neo-purple">{fighter.stats.type}</p>
+          <p className={COMMON_CLASSES.TEXT_NAME}>{fighter.name}</p>
+          <p className={COMMON_CLASSES.TEXT_TYPE}>{fighter.stats.type}</p>
         </div>
         <div className="flex flex-row justify-center">
-          <p className="text-neo-red text-sm">{fighter.origin}</p>
+          <p className={COMMON_CLASSES.TEXT_ORIGIN}>{fighter.origin}</p>
         </div>
-        <div className="text-sm text-neo-blue flex flex-row gap-2 justify-center pb-2">
-          <div>Logic: {fighter.stats.logic}</div>
-          <div>Flow: {fighter.stats.flow}</div>
-          <div>Chaos: {fighter.stats.chaos}</div>
+        <div className="justify-center pb-2">
+          <FighterStats stats={fighter.stats} className="text-sm text-neo-blue flex flex-row gap-2 justify-center" />
         </div>
         <div className="flex flex-row justify-evenly">
           {!isInTeamOne && !teamOneComplete && (
