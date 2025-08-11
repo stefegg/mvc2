@@ -6,8 +6,7 @@ import { animate } from "motion";
 import { Fighter } from "../../types";
 import { useGame } from "../../contexts/GameContext";
 import {
-  Button,
-  AnimatedBorderDiv,
+  AnimatedBorderButton,
   FighterSelectCard,
   BattlePreview,
 } from "@/components";
@@ -121,7 +120,10 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
               ))}
             </div>
             <div className="col-start-4 col-end-6 row-start-2 row-end-3 flex flex-row justify-evenly gap-2">
-              <AnimatedBorderDiv
+              <AnimatedBorderButton
+                text={teamOneReady ? "Unready" : "Ready"}
+                onClick={() => handleTeamReady(1)}
+                disabled={!teamOneComplete}
                 initialColor={teamOneComplete ? "#03DAc6" : "#666666"}
                 hoverColor={teamOneComplete ? "#FFF700" : "#666666"}
                 contentClassName={`${
@@ -129,14 +131,11 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                     ? "bg-neo-navy text-neo-blue"
                     : "bg-gray-700 text-gray-400"
                 }`}
-              >
-                <Button
-                  text={teamOneReady ? "Unready" : "Ready"}
-                  onClick={() => handleTeamReady(1)}
-                  disabled={!teamOneComplete}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
+              />
+              <AnimatedBorderButton
+                text="Reset"
+                onClick={() => clearTeam(1)}
+                disabled={teamOne.length === 0 || teamOneReady}
                 initialColor={
                   !teamOneReady && teamOne.length > 0 ? "#FF6B6B" : "#666666"
                 }
@@ -148,20 +147,14 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                     ? "bg-neo-navy text-neo-blue"
                     : "bg-gray-700 text-gray-400"
                 }`}
-              >
-                <Button
-                  text="Reset"
-                  onClick={() => clearTeam(1)}
-                  disabled={teamOne.length === 0}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
+              />
+              <AnimatedBorderButton
+                text="Random"
+                onClick={() => generateRandomTeam(1)}
                 initialColor="#03DAc6"
                 hoverColor="#FFF700"
                 contentClassName="bg-neo-navy text-neo-blue"
-              >
-                <Button text="Random" onClick={() => generateRandomTeam(1)} />
-              </AnimatedBorderDiv>
+              />
             </div>
             <div className="col-start-8 col-end-10 row-start-1 row-end-2">
               Team Two:
@@ -170,7 +163,10 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
               ))}
             </div>
             <div className="col-start-8 col-end-10 row-start-2 row-end-3 flex flex-row justify-evenly gap-2">
-              <AnimatedBorderDiv
+              <AnimatedBorderButton
+                text={teamTwoReady ? "Unready" : "Ready"}
+                onClick={() => handleTeamReady(2)}
+                disabled={!teamTwoComplete}
                 initialColor={teamTwoComplete ? "#03DAc6" : "#666666"}
                 hoverColor={teamTwoComplete ? "#FFF700" : "#666666"}
                 contentClassName={`${
@@ -178,14 +174,11 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                     ? "bg-neo-navy text-neo-blue"
                     : "bg-gray-700 text-gray-400"
                 }`}
-              >
-                <Button
-                  text={teamTwoReady ? "Unready" : "Ready"}
-                  onClick={() => handleTeamReady(2)}
-                  disabled={!teamTwoComplete}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
+              />
+              <AnimatedBorderButton
+                text="Reset"
+                onClick={() => clearTeam(2)}
+                disabled={teamTwo.length === 0 || teamTwoReady}
                 initialColor={
                   !teamTwoReady && teamTwo.length > 0 ? "#FF6B6B" : "#666666"
                 }
@@ -197,20 +190,14 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                     ? "bg-neo-navy text-neo-blue"
                     : "bg-gray-700 text-gray-400"
                 }`}
-              >
-                <Button
-                  text="Reset"
-                  onClick={() => clearTeam(2)}
-                  disabled={teamTwo.length === 0}
-                />
-              </AnimatedBorderDiv>
-              <AnimatedBorderDiv
+              />
+              <AnimatedBorderButton
+                text="Random"
+                onClick={() => generateRandomTeam(2)}
                 initialColor="#03DAc6"
                 hoverColor="#FFF700"
                 contentClassName="bg-neo-navy text-neo-blue"
-              >
-                <Button text="Random" onClick={() => generateRandomTeam(2)} />
-              </AnimatedBorderDiv>
+              />
             </div>
           </span>
           <div className="grid grid-cols-4 gap-4">

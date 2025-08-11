@@ -1,5 +1,4 @@
-import AnimatedBorderDiv from "../AnimatedBorderDiv";
-import Button from "../Button";
+import AnimatedBorderButton from "../AnimatedBorderButton";
 import TeamPreviewCard from "./TeamPreviewCard";
 import { useMemo } from "react";
 import { useGame } from "@/contexts/GameContext";
@@ -63,20 +62,20 @@ const BattlePreview = ({ onTeamReadyToggle }: BattlePreviewProps) => {
           />
         ))}
       </div>
-      <AnimatedBorderDiv
+      <AnimatedBorderButton
+        text="F I G H T!"
+        onClick={handleCopyUrl}
         initialColor="#03DAc6"
         hoverColor="#BB86FC"
         contentClassName="bg-neo-navy text-neo-teal"
-      >
-        <Button text="F I G H T!" onClick={handleCopyUrl} />
-      </AnimatedBorderDiv>
-      <AnimatedBorderDiv
+      />
+      <AnimatedBorderButton
+        text="Copy Battle URL"
+        onClick={handleCopyUrl}
         initialColor="#03DAc6"
         hoverColor="#BB86FC"
         contentClassName="bg-neo-navy text-neo-teal"
-      >
-        <Button text="Copy Battle URL" onClick={handleCopyUrl} />
-      </AnimatedBorderDiv>
+      />
     </div>
   );
 };

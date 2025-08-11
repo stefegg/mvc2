@@ -1,6 +1,5 @@
 import { TeamFightSummary } from "@/types";
-import Button from "../Button";
-import AnimatedBorderDiv from "../AnimatedBorderDiv";
+import AnimatedBorderButton from "../AnimatedBorderButton";
 
 interface TeamPreviewCardProps {
   teamSummary: TeamFightSummary;
@@ -32,16 +31,13 @@ const TeamPreviewCard = ({ teamSummary, teamNumber, onGoBack }: TeamPreviewCardP
           Win Chance: {teamSummary.winPercentage}%
         </p>
         <div className="mt-4">
-          <AnimatedBorderDiv
+          <AnimatedBorderButton
+            text="Go Back"
+            onClick={() => onGoBack(teamNumber)}
             initialColor="#FF6B6B"
             hoverColor="#FFF700"
             contentClassName="bg-neo-navy text-neo-blue"
-          >
-            <Button 
-              text="Go Back" 
-              onClick={() => onGoBack(teamNumber)}
-            />
-          </AnimatedBorderDiv>
+          />
         </div>
       </div>
     </div>
