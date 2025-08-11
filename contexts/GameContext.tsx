@@ -14,6 +14,7 @@ interface GameContextType {
   addToTeam: (fighter: Fighter, teamNumber: 1 | 2) => void;
   removeFromTeam: (fighterId: string, teamNumber: 1 | 2) => void;
   clearTeam: (teamNumber: 1 | 2) => void;
+  setTeam: (fighters: Fighter[], teamNumber: 1 | 2) => void;
 
   // Team sharing via URL
   loadTeamsFromUrl: (teamOneIds: string[], teamTwoIds: string[]) => void;
@@ -62,6 +63,11 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     setTeam([]);
   };
 
+  const setTeam = (fighters: Fighter[], teamNumber: 1 | 2) => {
+    const setTeamState = teamNumber === 1 ? setTeamOne : setTeamTwo;
+    setTeamState(fighters);
+  };
+
   const loadTeamsFromUrl = (teamOneIds: string[], teamTwoIds: string[]) => {
     const teamOneFighters = fighters.filter((f) => teamOneIds.includes(f.id));
     const teamTwoFighters = fighters.filter((f) => teamTwoIds.includes(f.id));
@@ -69,6 +75,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
     setTeamOne(teamOneFighters);
     setTeamTwo(teamTwoFighters);
   };
+
 
   return (
     <GameContext.Provider
@@ -80,6 +87,7 @@ export const GameProvider = ({ children }: GameProviderProps) => {
         addToTeam,
         removeFromTeam,
         clearTeam,
+        setTeam,
         loadTeamsFromUrl,
       }}
     >

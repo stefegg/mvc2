@@ -23,6 +23,8 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     setFighters,
     loadTeamsFromUrl,
     clearTeam,
+    setTeam,
+    addToTeam,
     teamOne,
     teamTwo,
   } = useGame();
@@ -80,6 +82,21 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
     }
   };
 
+  const generateRandomTeam = (teamNumber: 1 | 2) => {
+    const otherTeam = teamNumber === 1 ? teamTwo : teamOne;
+
+    const availableFighters = cachedFighters.filter(
+      (fighter) => !otherTeam.find((f) => f.id === fighter.id)
+    );
+
+    const shuffled = [...availableFighters].sort(() => Math.random() - 0.5);
+    const randomTeam = shuffled.slice(0, 3);
+
+    setTeam(randomTeam, teamNumber);
+
+    triggerFlash();
+  };
+
   return (
     <>
       {/* Screen flash overlay */}
@@ -103,7 +120,7 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                 <div key={f.id}>{f.name}</div>
               ))}
             </div>
-            <div className="col-start-4 col-end-6 row-start-2 row-end-3 flex flex-row justify-evenly gap-4">
+            <div className="col-start-4 col-end-6 row-start-2 row-end-3 flex flex-row justify-evenly gap-2">
               <AnimatedBorderDiv
                 initialColor={teamOneComplete ? "#03DAc6" : "#666666"}
                 hoverColor={teamOneComplete ? "#FFF700" : "#666666"}
@@ -138,6 +155,13 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                   disabled={teamOne.length === 0}
                 />
               </AnimatedBorderDiv>
+              <AnimatedBorderDiv
+                initialColor="#03DAc6"
+                hoverColor="#FFF700"
+                contentClassName="bg-neo-navy text-neo-blue"
+              >
+                <Button text="Random" onClick={() => generateRandomTeam(1)} />
+              </AnimatedBorderDiv>
             </div>
             <div className="col-start-8 col-end-10 row-start-1 row-end-2">
               Team Two:
@@ -145,7 +169,7 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                 <div key={f.id}>{f.name}</div>
               ))}
             </div>
-            <div className="col-start-8 col-end-10 row-start-2 row-end-3 flex flex-row justify-evenly gap-4">
+            <div className="col-start-8 col-end-10 row-start-2 row-end-3 flex flex-row justify-evenly gap-2">
               <AnimatedBorderDiv
                 initialColor={teamTwoComplete ? "#03DAc6" : "#666666"}
                 hoverColor={teamTwoComplete ? "#FFF700" : "#666666"}
@@ -180,11 +204,26 @@ const FighterSelect = ({ initialFighters }: FighterSelectProps) => {
                   disabled={teamTwo.length === 0}
                 />
               </AnimatedBorderDiv>
+              <AnimatedBorderDiv
+                initialColor="#03DAc6"
+                hoverColor="#FFF700"
+                contentClassName="bg-neo-navy text-neo-blue"
+              >
+                <Button text="Random" onClick={() => generateRandomTeam(2)} />
+              </AnimatedBorderDiv>
             </div>
           </span>
           <div className="grid grid-cols-4 gap-4">
             {cachedFighters.map((fighter) => (
-              <FighterSelectCard key={fighter.id} fighter={fighter} />
+              <FighterSelectCard
+                key={fighter.id}
+                fighter={fighter}
+                onAddToTeam={addToTeam}
+                isInTeamOne={teamOne.some((f) => f.id === fighter.id)}
+                isInTeamTwo={teamTwo.some((f) => f.id === fighter.id)}
+                teamOneComplete={teamOneComplete}
+                teamTwoComplete={teamTwoComplete}
+              />
             ))}
           </div>
         </>

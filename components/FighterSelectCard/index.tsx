@@ -1,9 +1,23 @@
 import { Fighter } from "@/types";
 import Button from "../Button";
-import { useGame } from "@/contexts/GameContext";
 
-const FighterSelectCard = ({ fighter }: { fighter: Fighter }) => {
-  const { addToTeam, teamOne, teamTwo } = useGame();
+interface FighterSelectCardProps {
+  fighter: Fighter;
+  onAddToTeam: (fighter: Fighter, teamNumber: 1 | 2) => void;
+  isInTeamOne: boolean;
+  isInTeamTwo: boolean;
+  teamOneComplete: boolean;
+  teamTwoComplete: boolean;
+}
+
+const FighterSelectCard = ({ 
+  fighter, 
+  onAddToTeam, 
+  isInTeamOne, 
+  isInTeamTwo, 
+  teamOneComplete, 
+  teamTwoComplete 
+}: FighterSelectCardProps) => {
 
   return (
     <div key={fighter.id} className="bg-neo-navy p-4 rounded-lg">
@@ -15,11 +29,11 @@ const FighterSelectCard = ({ fighter }: { fighter: Fighter }) => {
         <div>Flow: {fighter.stats.flow}</div>
         <div>Chaos: {fighter.stats.chaos}</div>
       </div>
-      {!teamOne.find((f) => f.id === fighter.id) && teamOne.length !== 3 && (
-        <Button text="Add to Team One" onClick={() => addToTeam(fighter, 1)} />
+      {!isInTeamOne && !teamOneComplete && (
+        <Button text="Add to Team One" onClick={() => onAddToTeam(fighter, 1)} />
       )}
-      {!teamTwo.find((f) => f.id === fighter.id) && teamTwo.length !== 3 && (
-        <Button text="Add to Team Two" onClick={() => addToTeam(fighter, 2)} />
+      {!isInTeamTwo && !teamTwoComplete && (
+        <Button text="Add to Team Two" onClick={() => onAddToTeam(fighter, 2)} />
       )}
     </div>
   );

@@ -1,151 +1,153 @@
 import { Fighter } from "../types";
 
 export const mockFighters: Fighter[] = [
-  // Architects (4)
+  // Architects
   {
     id: "1",
-    name: "Neo",
-    portrait: "/portraits/neo.jpg",
-    origin: "The Matrix",
-    stats: {
-      type: "Architect",
-      logic: 95,
-      flow: 88,
-      chaos: 72
-    }
-  },
-  {
-    id: "2", 
     name: "Tony Stark",
-    portrait: "/portraits/ironman.jpg",
-    origin: "Marvel",
-    stats: {
-      type: "Architect",
-      logic: 93,
-      flow: 85,
-      chaos: 75
-    }
-  },
-  {
-    id: "3",
-    name: "Bruce Banner",
-    portrait: "/portraits/hulk.jpg", 
+    portrait: "/portraits/stark.png",
     origin: "Marvel",
     stats: {
       type: "Architect",
       logic: 96,
-      flow: 82,
-      chaos: 68
+      flow: 90,
+      chaos: 78
+    }
+  },
+  {
+    id: "2",
+    name: "Neo",
+    portrait: "/portraits/neo.png",
+    origin: "The Matrix",
+    stats: {
+      type: "Architect",
+      logic: 94,
+      flow: 88,
+      chaos: 80
+    }
+  },
+  {
+    id: "3",
+    name: "Lex Luthor",
+    portrait: "/portraits/luthor.png",
+    origin: "DC Comics",
+    stats: {
+      type: "Architect",
+      logic: 95,
+      flow: 84,
+      chaos: 70
     }
   },
   {
     id: "4",
-    name: "Lex Luthor",
-    portrait: "/portraits/lex.jpg",
-    origin: "DC Comics", 
+    name: "Lisbeth Salander",
+    portrait: "/portraits/lisbeth.png",
+    origin: "The Girl with the Dragon Tattoo",
     stats: {
       type: "Architect",
-      logic: 94,
+      logic: 92,
       flow: 86,
-      chaos: 70
+      chaos: 76
     }
   },
-  // Operators (4)
+
+  // Operators
   {
     id: "5",
-    name: "Agent Smith",
-    portrait: "/portraits/smith.jpg", 
+    name: "Trinity",
+    portrait: "/portraits/trinity.png",
     origin: "The Matrix",
     stats: {
       type: "Operator",
       logic: 88,
-      flow: 92,
-      chaos: 65
+      flow: 93,
+      chaos: 77
     }
   },
   {
     id: "6",
-    name: "Trinity",
-    portrait: "/portraits/trinity.jpg",
-    origin: "The Matrix", 
+    name: "Motoko Kusanagi",
+    portrait: "/portraits/motoko.png",
+    origin: "Ghost in the Shell",
     stats: {
       type: "Operator",
-      logic: 85,
-      flow: 90,
+      logic: 91,
+      flow: 94,
       chaos: 75
     }
   },
   {
     id: "7",
-    name: "Batman",
-    portrait: "/portraits/batman.jpg", 
-    origin: "DC Comics",
+    name: "Bulma",
+    portrait: "/portraits/bulma.png",
+    origin: "Dragon Ball",
     stats: {
       type: "Operator",
-      logic: 87,
-      flow: 89,
-      chaos: 68
+      logic: 85,
+      flow: 90,
+      chaos: 72
     }
   },
   {
     id: "8",
-    name: "Black Widow",
-    portrait: "/portraits/blackwidow.jpg",
-    origin: "Marvel",
+    name: "Richard Hendricks",
+    portrait: "/portraits/richard.png",
+    origin: "Silicon Valley",
     stats: {
       type: "Operator",
-      logic: 84,
-      flow: 91,
-      chaos: 72
+      logic: 89,
+      flow: 82,
+      chaos: 74
     }
   },
-  // Wildcards (4)
+
+  // Wildcards
   {
     id: "9",
-    name: "Deadpool",
-    portrait: "/portraits/deadpool.jpg",
-    origin: "Marvel",
+    name: "Dade 'Zero Cool' Murphy",
+    portrait: "/portraits/zerocool.png",
+    origin: "Hackers",
     stats: {
       type: "Wildcard",
-      logic: 70,
-      flow: 85,
-      chaos: 98
+      logic: 82,
+      flow: 88,
+      chaos: 94
     }
   },
   {
     id: "10",
-    name: "Mr. Freeze", 
-    portrait: "/portraits/freeze.jpg",
-    origin: "DC Comics",
+    name: "Chloe O'Brian",
+    portrait: "/portraits/obrien.png",
+    origin: "24",
     stats: {
-      type: "Wildcard", 
-      logic: 82,
-      flow: 78,
-      chaos: 88
+      type: "Wildcard",
+      logic: 87,
+      flow: 84,
+      chaos: 90
     }
   },
   {
     id: "11",
-    name: "Loki",
-    portrait: "/portraits/loki.jpg",
-    origin: "Marvel",
+    name: "Dennis Nedry",
+    portrait: "/portraits/nedry.png",
+    origin: "Jurassic Park",
     stats: {
       type: "Wildcard",
-      logic: 85,
-      flow: 83,
-      chaos: 92
+      logic: 80,
+      flow: 76,
+      chaos: 96
     }
   },
   {
     id: "12",
-    name: "The Riddler",
-    portrait: "/portraits/riddler.jpg", 
-    origin: "DC Comics",
+    name: "Data",
+    portrait: "/portraits/data.png",
+    origin: "Star Trek: The Next Generation",
     stats: {
       type: "Wildcard",
-      logic: 88,
-      flow: 80,
-      chaos: 90
+      logic: 84,
+      flow: 89,
+      chaos: 92
     }
   }
 ];
